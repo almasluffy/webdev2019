@@ -1,0 +1,61 @@
+
+
+<ng-container *ngIf = "!logged">
+  <div>
+    <div><input type="text" [(ngModel)] = "login" /></div>
+    <div><input type="text" [(ngModel)] = "password"/></div>
+    <div><button (click)="auth()">Log in</button></div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf = "logged">
+CREATE TASK_LIST:
+<div>
+  <input type="text" [(ngModel)] = "name" />
+  <button (click) = "createTaskList()">Create</button>
+</div>
+
+<!-- <br><br>
+<div class = 'Tasks'>
+  <div *ngFor="let c of my_tasks" (click) ="getProblems(c)">{{c.id}} - {{c.name}}</div>
+</div>
+<br><br> -->
+
+
+
+  <div>
+    <div *ngFor="let c of my_tasks">
+      <span (click)="getProblems(c)">
+        <input type="text" [(ngModel)]="c.name" />
+      </span>
+      <span style="color: red" (click)="deleteTaskList(c)"> Удалить</span>
+      <span style="color: green" (click)="updateTaskList(c)"> Изменить</span>
+    </div>
+  </div>
+
+
+<!-- <div class = 'Problems'>
+  <div *ngFor="let p of problems">{{p.id}} - {{p.name}} - {{p.created_at}} - {{p.due_on}} - {{p.status}}</div>
+</div> -->
+
+<br><br>
+
+MyTask
+<br><br>
+
+<div>
+  <div *ngFor="let task of problems">
+    <span>
+      <input type="text" [(ngModel)]="task.name" />
+    </span>
+    <span style="color: red" (click)="deleteTask(task)"> Удалить</span>
+    <span style="color: green" (click)="updateTask(task)"> Изменить</span>
+
+  </div>
+</div>
+
+<div>
+  <button (click)="logout()">Log out</button>
+</div>
+
+</ng-container>
