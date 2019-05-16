@@ -1,0 +1,30 @@
+.Tasks{
+    border: 1px solid red;
+}
+
+.Problems{
+    border: 2px solid blue;
+}
+
+.main{
+    width:935px;
+    padding:15px;
+    height:500px;
+    background-color:#F1F1F1;
+    margin:0 auto;
+}
+.main1{
+    float:left;
+    width: 70%;
+    height:200px;
+    padding:8px;
+    box-sizing:border-box;
+}
+.inner{
+    border:1px solid #666;
+    box-sizing:border-box;
+    background-color:#FFF;
+    cursor:pointer;
+    height:100%;
+    width: 300px;
+}

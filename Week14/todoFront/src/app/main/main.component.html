@@ -1,0 +1,76 @@
+
+
+<ng-container *ngIf = "!logged">
+  <div>
+    <div><input type="text" [(ngModel)] = "login" /></div>
+    <div><input type="text" [(ngModel)] = "password"/></div>
+    <div><button (click)="auth()">Log in</button></div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf = "logged">
+ <div class = "main">
+   <div class = "main1">
+     <div class = "inner">
+  CREATE Task List:
+  <div>
+     <input type="text" [(ngModel)] = "name" />
+  </div>
+  <!-- Tasks for this TaskList
+  <br>
+  <br>
+  <input type="text" [(ngModel)] = "t_name" placeholder="task Name"/>
+  <input type="text" [(ngModel)] = "complexity"  placeholder="complexity"/>
+  <input type="text" [(ngModel)] = "status" placeholder="status" />
+  <br><br>
+  <button (click) = "create()">create</button>
+  <br>
+  <br> -->
+  <div>
+    <div *ngFor="let c of taskLists">
+      <span (click)="getTasks(c)">
+        <input type="text" [(ngModel)]="c.name" />
+      </span>
+      <span style="color: red" (click)="deleteTaskList(c)"> Удалить</span>
+      <span style="color: green" (click)="updateTaskList(c)"> Изменить</span>
+    </div>
+  </div>
+
+
+<!-- <div class = 'Problems'>
+  <div *ngFor="let p of problems">{{p.id}} - {{p.name}} - {{p.created_at}} - {{p.due_on}} - {{p.status}}</div>
+</div> -->
+
+<br><br>
+
+<br><br>
+<br>
+<div>
+    <input type="Text" placeholder="TaskName" [(ngModel)]="se_name"><button (click) = "search()"  > Search</button><br>
+    Order by Complexity:<br>
+    <button (click) = "asc()">ASC</button>
+    <button (click) = "desc()">DESC</button><br>
+    <label>Min Complexity</label><input [(ngModel)]="minC" style="width: 50px;"><br>
+    <label>Max Complexity</label><input style="width: 50px;" [(ngModel)]="maxC"><br>
+    <button (click) = "filter()">GO</button><br><br>
+
+    TaskList Tasks
+
+  <div *ngFor="let task of tasks">
+    <div style="margin-left: 30px; border: 1px solid red; width: 300px;">
+      <!-- <input type="text" [(ngModel)]="task.name" /> -->
+      {{task.name}}  = complexity: {{task.complexity}}  = status: {{task.status}}
+    </div>
+    <!-- <span style="color: red" (click)="deleteTask(c)"> Удалить</span>
+    <span style="color: green" (click)="updateTask(c)"> Изменить</span> -->
+  </div>
+</div>
+<br>
+<div>
+  <button (click)="logout()">Log out</button>
+</div>
+
+</div>
+</div>
+</div>
+</ng-container>
