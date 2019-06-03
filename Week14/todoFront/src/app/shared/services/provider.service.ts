@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { MainService } from './main.service';
 import { HttpClient } from '@angular/common/http';
-import { TaskLIst, Tasks, IAuthResponse } from '../models/models';
+import { TaskLIst, Tasks, IAuthResponse, IPage } from '../models/models';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,11 @@ export class ProviderService extends MainService {
    search(se_name: string, t_id: number):Promise<Tasks[]>{
      return this.get(`http://127.0.0.1:8000/api/task_lists/${t_id}/tasks/?search=` + se_name,{} );
    }
+
+   paginateTasks(path: string): Promise<IPage>{
+    console.log(path);
+    return this.get(path, {});
+  }
 
    filter(t_id: number, minC: number, maxC: number): Promise<Tasks[]>{
      return this.get(`http://127.0.0.1:8000/api/task_lists/16/tasks/?min_cmx=${minC}&max_cmx=${maxC}`,{});
@@ -34,7 +39,7 @@ export class ProviderService extends MainService {
      return this.get('http://127.0.0.1:8000/api/task_lists/', {});
    }
    getTasks(task_list: TaskLIst): Promise<Tasks[]> {
-     return this.get(`http://127.0.0.1:8000/api/task_lists/${task_list.id}/tasks/`, {});
+     return this.get(`http://127.0.0.1:8000/api/task_lists/${task_list.id}/tasks/?limit=1&offset=1`, {});
    }
 
    createTaskList(name: any): Promise<TaskLIst>{

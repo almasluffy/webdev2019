@@ -1,13 +1,15 @@
 from api.models import TaskList,Task
 from api.serializers import TaskSerializer, TaskListSerializer
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework import status
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
 @api_view(['GET','POST'])
-def tasklist_list(request):
+def task_list(request):
     if request.method == 'GET':
-        tasklists = TaskList.objects.all()
+        tasklists = TaskList.objects.filter()
         serializer = TaskListSerializer(tasklists,many=True)
         return Response(serializer.data,status= status.HTTP_200_OK)
     elif request.method == 'POST':
@@ -55,20 +57,22 @@ def tasks(request, pk):
             return Response(serializer.data,status = status.HTTP_201_CREATED)
         return Response(serializer.errors,status = status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-@api_view(['PUT','DELETE'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def tasks_detail(request,pk,pk2):
     try:
-        taskInfo = TaskList.taskInfo_set.get(id = pk)
-    except TaskList.DoesNotExist as e:
+        task = Task.objects.get(id=pk2)
+    except Task.DoesNotExist as e:
         return Response({'error',f'{e}'},status = status.HTTP_404_NOT_FOUND)
 
+    if request.method == "GET":
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
 
-    if request.method == 'DELETE':
-        task = taskInfo.task_set.get(id = pk2)
+    elif request.method == 'DELETE':
         task.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
+
     elif request.method == 'PUT':
-        task = taskInfo.task_set.get(id = pk2)
         serializer = TaskSerializer(instance=task,data=request.data)
         if serializer.is_valid():
             serializer.save()

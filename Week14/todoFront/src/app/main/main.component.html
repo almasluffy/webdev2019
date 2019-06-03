@@ -28,7 +28,7 @@
   <br> -->
   <div>
     <div *ngFor="let c of taskLists">
-      <span (click)="getTasks(c)">
+      <span (click)="paginateTasks(c)">
         <input type="text" [(ngModel)]="c.name" />
       </span>
       <span style="color: red" (click)="deleteTaskList(c)"> Удалить</span>

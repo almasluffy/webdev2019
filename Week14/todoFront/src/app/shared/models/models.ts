@@ -13,3 +13,9 @@ export interface Tasks{
 export interface IAuthResponse{
   token: string;
 }
+
+export interface IPage {
+  next: string;
+  previous: string;
+  results: Tasks[];
+}

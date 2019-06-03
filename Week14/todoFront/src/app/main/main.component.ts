@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProviderService } from '../shared/services/provider.service';
-import { TaskLIst, Tasks } from '../shared/models/models';
+import { TaskLIst, Tasks, IPage } from '../shared/models/models';
 
 @Component({
   selector: 'app-main',
@@ -30,6 +30,14 @@ export class MainComponent implements OnInit {
   public c_tasks: Tasks[] = [];
   public c_task: Tasks;
 
+
+  public pagelimit: number = 1;
+  public pageoffset: number = 0;
+  public nextUrl: string = '';
+  public prevUrl: string = '';
+  public curTaskList: TaskLIst;
+  public curUrl: string = '';
+
   constructor(private provider: ProviderService) { }
 
   
@@ -44,12 +52,34 @@ export class MainComponent implements OnInit {
     if(this.logged){
     this.provider.getTaskList().then(res=>{
       this.taskLists= res;
-      // self.c_task.name = "hey";
-      // self.c_task.complexity = 0;
-      // self.c_task.status = "hey";
       });
-    }
+    
 
+    }
+}
+
+  paginateTasks(task_list: TaskLIst){
+    this.provider.paginateTasks(this.curUrl).then(res => {
+      this.curTaskList = task_list;
+      this.curUrl = `http://127.0.0.1:8000/api/task_lists/${this.curTaskList.id}/tasks/?limit=${this.pagelimit}&offset=${this.pageoffset}`;
+      this.tasks = res.results;
+      this.nextUrl = res.next;
+      this.prevUrl = res.previous;
+    });
+  }
+
+  nextpage(){
+    if (this.nextUrl != null) {
+      this.curUrl = this.nextUrl;
+      this.paginateTasks(this.curTaskList);
+    }
+  }
+
+  prevpage(){
+    if (this.prevUrl != null) {
+      this.curUrl = this.prevUrl;
+      this.paginateTasks(this.curTaskList);
+    }
   }
 
 

@@ -4,7 +4,7 @@ from api.models import Task
 
 class TaskFilter(filters.FilterSet):
     name = filters.CharFilter(lookup_expr='contains')
-    #complexity = filters.NumberFilter(lookup_expr='exact')
+    complexity = filters.NumberFilter(lookup_expr='exact')
     status = filters.CharFilter(lookup_expr='contains')
     min_cmx = filters.NumberFilter(field_name='complexity', lookup_expr='gte')
     max_cmx = filters.NumberFilter(field_name='complexity', lookup_expr='lte')

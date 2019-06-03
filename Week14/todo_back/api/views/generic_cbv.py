@@ -42,7 +42,7 @@ class TaskListDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class Tasks(generics.ListCreateAPIView):
     serializer_class = TaskSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = LimitOffsetPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     # TODO DjangoFilterBackend
     # filterset_fields = ('name', 'price',)
@@ -52,8 +52,8 @@ class Tasks(generics.ListCreateAPIView):
     search_fields = ('name', 'complexity', 'status')
 
     # TODO OrderingFilter
-    ordering_fields = ('name', 'complexity')
-    ordering = ('complexity',)
+   # ordering_fields = ('name', 'complexity')
+    #ordering = ('complexity',)
 
 
     def get_queryset(self):
@@ -61,8 +61,10 @@ class Tasks(generics.ListCreateAPIView):
         queryset = task_list.tasks.all()
         return queryset
 
+
 class TasksDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         task = get_object_or_404(Task, id=self.kwargs.get('pk2'))

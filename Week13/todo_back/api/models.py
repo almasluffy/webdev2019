@@ -23,7 +23,7 @@ class Task(models.Model):
     due_on = models.DateTimeField()
     status = models.CharField(max_length=100)
 
-    task_list = models.ForeignKey(TaskList, on_delete=models.CASCADE)
+    task_list = models.ForeignKey(TaskList, on_delete=models.CASCADE,blank=True, null=True)
     def __str__(self):
         return  '{}: {}'.format(self.id, self.name)
     def to_json(self):

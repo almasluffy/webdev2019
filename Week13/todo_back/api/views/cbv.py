@@ -74,12 +74,13 @@ class Tasks_detail(APIView):
         except Task.DoesNotExist:
             raise Http404
 
-    def put(self,request,pk,pk2):
-        try:
-            task = self.get_object(id=pk2)
-        except Task.DoesNotExist:
-            raise Http404
+    def get(self, request, pk, pk2):
+        task = self.get_object(pk2)
+        serializer = TaskSerializer(task)
+        return Response(serializer.data)
 
+    def put(self,request,pk,pk2):
+        task = self.get_object(pk2)
         serializer = TaskSerializer(instance=task,data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -87,10 +88,7 @@ class Tasks_detail(APIView):
         return Response(serializer.errors,status = status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self,request,pk,pk2):
-        try:
-            task = Task.objects.get(id=pk2)
-        except Task.DoesNotExist:
-            raise Http404
+        task = self.get_object(pk2)
         task.delete()
 
         return Response(status = status.HTTP_204_NO_CONTENT)
